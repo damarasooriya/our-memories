@@ -109,7 +109,6 @@ function setupFilters() {
 // Lightbox Action Components
 let activeArray = memories; 
 function openLightbox(index) {
-    // Determine context slice based on active viewport state selection filters
     const activeFilter = document.querySelector(".filter-btn.active").getAttribute("data-filter");
     activeArray = activeFilter === "all" ? memories : memories.filter(m => m.type === activeFilter);
     
@@ -117,15 +116,20 @@ function openLightbox(index) {
     const mediaContainer = document.getElementById("lightbox-media-container");
     
     if(item.type === 'photo') {
+        // Render photo cleanly
         mediaContainer.innerHTML = `<img src="${item.src}" alt="${item.title}">`;
     } else if(item.type === 'video') {
-        // Enforce autoplay parameters automatically on overlay execution sequences
+        // Wrap video inside the 16:9 aspect ratio box class
         let cleanEmbed = item.src;
         if(cleanEmbed.includes("watch?v=")) {
             const id = getYoutubeId(cleanEmbed);
             cleanEmbed = `https://www.youtube.com/embed/${id}`;
         }
-        mediaContainer.innerHTML = `<iframe src="${cleanEmbed}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+        mediaContainer.innerHTML = `
+            <div class="lightbox-video-box">
+                <iframe src="${cleanEmbed}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+        `;
     }
 
     document.getElementById("lightbox-date").innerText = item.displayDate;
@@ -133,9 +137,8 @@ function openLightbox(index) {
     document.getElementById("lightbox-desc").innerText = item.description;
     
     document.getElementById("lightbox").style.display = "flex";
-    document.body.style.overflow = "hidden"; // Freeze scroll context behind active overlay canvas
+    document.body.style.overflow = "hidden"; 
 }
-
 function closeLightbox() {
     document.getElementById("lightbox").style.display = "none";
     document.getElementById("lightbox-media-container").innerHTML = ""; // Hard drop target streams to stop hidden active audio feeds
