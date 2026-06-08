@@ -103,8 +103,9 @@ function setupFilters() {
 }
 
 function openLightbox(index) {
+    // Correctly fetch the current active selection filter string
     const activeFilter = document.querySelector(".filter-btn.active").getAttribute("data-filter");
-    const activeArray = activeFilter === "all" ? memories : memories.filter(m => m.type === filterType);
+    const activeArray = activeFilter === "all" ? memories : memories.filter(m => m.type === activeFilter);
     
     const item = activeArray[index];
     const mediaContainer = document.getElementById("lightbox-media-container");
@@ -115,7 +116,7 @@ function openLightbox(index) {
         const id = getYoutubeId(item.src);
         const cleanEmbed = `https://www.youtube.com/embed/${id}`;
         
-        // Injects clean responsive player shell
+        // Render inside our newly scaled cinema frame container
         mediaContainer.innerHTML = `
             <div class="lightbox-video-box">
                 <iframe src="${cleanEmbed}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -128,7 +129,7 @@ function openLightbox(index) {
     document.getElementById("lightbox-desc").innerText = item.description;
     
     document.getElementById("lightbox").style.display = "flex";
-    document.body.style.overflow = "hidden"; 
+    document.body.style.overflow = "hidden"; // Lock page scroll behind the display
 }
 
 function closeLightbox() {
