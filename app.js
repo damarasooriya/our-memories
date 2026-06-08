@@ -25,25 +25,22 @@ const memories = [
 ];
 
 // ==========================================
-// 🛠️ ENGINE LOGIC (DO NOT CHANGE)
+// 🛠️ UPDATED ENGINE LOGIC (BULLETPROOF VIDEO PARSING)
 // ==========================================
 
-// Initialize Application Content
 document.addEventListener("DOMContentLoaded", () => {
-    // Sort array automatically chronologically by designated absolute timestamp
     memories.sort((a, b) => new Date(b.date) - new Date(a.date));
     renderTimeline(memories);
     setupFilters();
 });
 
-// Extract ID from custom string variations for YouTube Cover Preview Assembly
+// Advanced regex that captures Standard, Mobile, Embeds, and Shorts IDs
 function getYoutubeId(url) {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
     const match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
 }
 
-// Generate UI Blocks based on active criteria
 function renderTimeline(data) {
     const wrapper = document.getElementById("timeline-wrapper");
     wrapper.innerHTML = "";
@@ -87,7 +84,6 @@ function renderTimeline(data) {
     });
 }
 
-// Filter Control Handlers
 function setupFilters() {
     const buttons = document.querySelectorAll(".filter-btn");
     buttons.forEach(btn => {
@@ -106,25 +102,20 @@ function setupFilters() {
     });
 }
 
-// Lightbox Action Components
-let activeArray = memories; 
 function openLightbox(index) {
     const activeFilter = document.querySelector(".filter-btn.active").getAttribute("data-filter");
-    activeArray = activeFilter === "all" ? memories : memories.filter(m => m.type === activeFilter);
+    const activeArray = activeFilter === "all" ? memories : memories.filter(m => m.type === filterType);
     
     const item = activeArray[index];
     const mediaContainer = document.getElementById("lightbox-media-container");
     
     if(item.type === 'photo') {
-        // Render photo cleanly
         mediaContainer.innerHTML = `<img src="${item.src}" alt="${item.title}">`;
     } else if(item.type === 'video') {
-        // Wrap video inside the 16:9 aspect ratio box class
-        let cleanEmbed = item.src;
-        if(cleanEmbed.includes("watch?v=")) {
-            const id = getYoutubeId(cleanEmbed);
-            cleanEmbed = `https://www.youtube.com/embed/${id}`;
-        }
+        const id = getYoutubeId(item.src);
+        const cleanEmbed = `https://www.youtube.com/embed/${id}`;
+        
+        // Injects clean responsive player shell
         mediaContainer.innerHTML = `
             <div class="lightbox-video-box">
                 <iframe src="${cleanEmbed}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -139,13 +130,13 @@ function openLightbox(index) {
     document.getElementById("lightbox").style.display = "flex";
     document.body.style.overflow = "hidden"; 
 }
+
 function closeLightbox() {
     document.getElementById("lightbox").style.display = "none";
-    document.getElementById("lightbox-media-container").innerHTML = ""; // Hard drop target streams to stop hidden active audio feeds
+    document.getElementById("lightbox-media-container").innerHTML = ""; 
     document.body.style.overflow = "auto";
 }
 
-// Global Keyboard Navigation (Escape closing shortcut)
 document.addEventListener('keydown', (e) => {
     if (e.key === "Escape") closeLightbox();
 });
