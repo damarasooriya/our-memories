@@ -208,7 +208,7 @@ body {
     font-size: 0.95rem;
 }
 
-/* Immersive Lightbox Modal */
+/* Immersive Lightbox Modal - Fixed Aspect Ratio Bug */
 .lightbox {
     display: none;
     position: fixed;
@@ -233,17 +233,36 @@ body {
     overflow: hidden;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     animation: zoomIn 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 #lightbox-media-container {
-    position: relative;
     width: 100%;
-    padding-top: 56.25%; /* Responsive 16:9 box */
     background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#lightbox-media-container img, 
-#lightbox-media-container iframe {
+/* Photos will now scale perfectly without stretching */
+#lightbox-media-container img {
+    max-width: 100%;
+    max-height: 70vh; /* Prevents the photo from clipping past the screen height */
+    width: auto;
+    height: auto;
+    object-fit: contain; 
+    display: block;
+}
+
+/* Videos will exclusively get the 16:9 responsive aspect ratio box */
+.lightbox-video-box {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 aspect ratio */
+}
+
+.lightbox-video-box iframe {
     position: absolute;
     top: 0;
     left: 0;
@@ -255,7 +274,6 @@ body {
 #lightbox-info-container {
     padding: 30px;
 }
-
 #lightbox-title {
     font-size: 1.6rem;
     margin-bottom: 10px;
