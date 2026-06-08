@@ -240,26 +240,25 @@ body {
 #lightbox-media-container {
     width: 100%;
     background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    line-height: 0; /* Prevents tiny bottom alignment gaps */
 }
 
-/* Photos will now scale perfectly without stretching */
+/* Photos will center perfectly on their own without breaking videos */
 #lightbox-media-container img {
     max-width: 100%;
-    max-height: 70vh; /* Prevents the photo from clipping past the screen height */
+    max-height: 70vh; 
     width: auto;
     height: auto;
     object-fit: contain; 
     display: block;
+    margin: 0 auto; /* Centers the image block horizontally */
 }
 
-/* Videos will exclusively get the 16:9 responsive aspect ratio box */
+/* Videos stretch seamlessly to fill the layout */
 .lightbox-video-box {
     position: relative;
     width: 100%;
-    padding-top: 56.25%; /* 16:9 aspect ratio */
+    padding-top: 56.25%; /* Golden 16:9 Widescreen Aspect Ratio */
 }
 
 .lightbox-video-box iframe {
@@ -270,7 +269,6 @@ body {
     height: 100%;
     border: none;
 }
-
 #lightbox-info-container {
     padding: 30px;
 }
