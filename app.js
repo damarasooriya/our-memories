@@ -5,21 +5,23 @@
 // ==========================================
 const memories = [
     {
-        date: "2026-06-05",
-        displayDate: "June 5, 2026",
-        type: "photo",
-        title: "The Weekend Getaway",
-        src: "https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/main/photos/trip.jpg", 
-        description: "An unforgettable evening hanging out by the edge of the horizon. Capturing this was absolute gold."
-    },
+        date: "2026-06-08",
+        displayDate: "2026/June/8",
+        type: "video", // <-- Must be exactly "photo or video"
+        title: "ධනිකයගෙ ගෙදර ඇවිත්",
+        src: "https://youtu.be/JIWXInMbQ8s", // <-- Raw GitHub Link
+        description: "කරපු වැඩක් නෑ. කයිය ගහල ගියා."
+    }, // <-- Notice this comma separating the two memories!
+
+    // 2. AN ENTRY FOR A VIDEO
     {
-        date: "2026-05-12",
-        displayDate: "May 12, 2026",
-        type: "video",
-        title: "Late Night Beats",
-        src: "https://www.youtube.com/embed/dQw4w9WgXcQ", // Works with standard /embed/ or clean watch links
-        description: "Testing out our dynamic playback configurations in the garage workshop layout."
-    }
+        date: "2025-3-25",
+        displayDate: "2025/March/25",
+        type: "photo", // <-- Must be exactly "video or photo"
+        title: "සපාගෙ ක්ලාස්",
+        src: "https://github.com/damarasooriya/our-memories/blob/main/photos/IMG_20250325_150938.jpg?raw=true", // <-- YouTube Link
+        description: "pky පළවෙනි පාරට දුන්න AC hall එක."
+    } // <-- No comma needed on the last item, but having one won't break it
 ];
 
 // ==========================================
